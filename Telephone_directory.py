@@ -10,6 +10,8 @@
 # человека)
 # 4. Использование функций. Ваша программа
 # не должна быть линейной.
+# Дополнить справочник возможностью копирования данных из одного файла в другой. 
+# Пользователь вводит номер строки, которую необходимо перенести из одного файла в другой.
 
 # Поиск
 def wallpaper_search(dt, search_data):
@@ -20,6 +22,9 @@ def wallpaper_search(dt, search_data):
             listRes = list(data.split(' '))
             if listRes[dt-1] == search_data:
                 array.append(listRes)
+    if not array:
+        print('Такого абонента нет в справочнике!')            
+    else:
         for res in array:
             print(*res, sep=", ")  
          
@@ -75,6 +80,20 @@ def data_export():
     print('Экспорт данных в файл export.txt выполнен')
     return
 
+# Скопировать  по номеру сироки
+def copy_by_line_numbery(number):
+    i = 0
+    with open ('telephone_book.txt', 'r') as file:
+        for data in file:
+            i += 1
+            if number == i:
+                with open ('export.txt', 'a', encoding='utf-8') as export:
+                    export.write(data)
+                print(f'Строка с номером {number} скопирована в файл export.txt')
+                return 
+        print('Такой строки нет в файле')
+        return        
+            
 # Главное меню
 def main():
     menu = ''
@@ -84,6 +103,7 @@ def main():
         print('2 - Добавить данные в справочник')
         print('3 - Экспортировать данные из справочника')
         print('4 - Вывести весь справочник')
+        print('5 - Скопировать данные справочника по номеру строки')
         print('0 - Выйти из программы')
         print(' ')
         menu = (input('Введите идентификатор - '))
@@ -100,8 +120,10 @@ def main():
         elif menu == '3':
             data_export()
         elif menu == '4': 
-            print(menu)       
             entire_directory()
+        elif menu == '5':
+            line_number = input('Введите номер строки для копирования данных из справочника - ')
+            copy_by_line_numbery(int(line_number))    
         elif menu == '0':
             break     
         else:
