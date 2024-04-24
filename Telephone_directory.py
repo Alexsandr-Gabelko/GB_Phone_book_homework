@@ -17,7 +17,7 @@
 def wallpaper_search(dt, search_data):
     array = []
     with open ('telephone_book.txt', 'r') as file:
-        print('Список телефонных номеров')
+        print('Список телефонных номеров по запросу - ', search_data)
         for data in file:
             listRes = list(data.split(' '))
             if listRes[dt-1] == search_data:
@@ -26,7 +26,7 @@ def wallpaper_search(dt, search_data):
         print('Такого абонента нет в справочнике!')            
     else:
         for res in array:
-            print(*res, sep=", ")  
+            print(*res, sep=" ")  
          
 
 # Меню поиска
@@ -58,7 +58,6 @@ def entire_directory():
         print('Список телефонных номеров')
         for list in file:
             print(list)
-        print(' ')    
     return        
 
 # Добавить новую запись в справочник
@@ -92,7 +91,18 @@ def copy_by_line_numbery(number):
                 print(f'Строка с номером {number} скопирована в файл export.txt')
                 return 
         print('Такой строки нет в файле')
-        return        
+        return  
+    
+# Импортировать данные в справочник
+def data_import():
+    with open ('import.txt', 'r') as import_data:
+        with open ('telephone_book.txt', 'a', encoding='utf-8') as fale:
+            print('Импорт данных из файла import.txt')
+            for data in import_data:
+                fale.write(data) 
+    print('Экспорт данных в файл export.txt выполнен')
+    return
+          
             
 # Главное меню
 def main():
@@ -104,6 +114,7 @@ def main():
         print('3 - Экспортировать данные из справочника')
         print('4 - Вывести весь справочник')
         print('5 - Скопировать данные справочника по номеру строки')
+        print('6 - Импортировать данные в справочник')
         print('0 - Выйти из программы')
         print(' ')
         menu = (input('Введите идентификатор - '))
@@ -123,11 +134,15 @@ def main():
             entire_directory()
         elif menu == '5':
             line_number = input('Введите номер строки для копирования данных из справочника - ')
-            copy_by_line_numbery(int(line_number))    
+            copy_by_line_numbery(int(line_number))  
+        elif menu == '6':
+            data_import()      
         elif menu == '0':
             break     
         else:
             print("Данной команды нет, введите другую")    
             print(' ')
         
-main()
+# Проверка существования файла 'telephone_book.txt', если файла нет то он создается
+with open ('telephone_book.txt', 'a', encoding='utf-8') as file:
+    main()
